@@ -194,17 +194,36 @@
 
                 function abrirModalEditarOperador(operador) {
                 	//abre o modal de edição de operador
-          			modalEditarOperador.modal("show");
+          			modalEditarOperador.modal("show");                	
                 	modalEditarOperador.find("#formEditarId").val(operador.id);
           			modalEditarOperador.find("#formEditarNome").val(operador.nome);
           		  	modalEditarOperador.find("#formEditarSenha").val(operador.senha);
           		  	modalEditarOperador.find("#formEditarBloco").empty().append("<option>" + operador.bloco + "</option>");
+	          		
+          		  	//resgata lista de blocos
+                    $.ajax({
+    					url: "bloco",//servlet BlocoServlet
+    					type: "GET",
+    					dataType: "json",
+    					success: function(response) {
+    						//preencher o campo "bloco" com as opções da lista de blocos
+    						var blocoSelect = $("#formEditarBloco");
+    						$.each(response, function(index, blocoOption) {
+    							blocoSelect.append($("<option></option>").text(blocoOption.descricao).val(blocoOption.id));
+    						});
+    					},
+    					error: function(xhr, status, error) {
+    						console.log("Erro ao obter a lista de blocos!");
+    						console.log(xhr.responseText);
+    					}
+    				});
                 }
                 
                 function abrirModalCadastrarOperador() {
                 	//abre o modal de cadastro de operador
                 	modalCadastrarOperador.modal("show");
                 	
+                	//resgata lista de blocos
                     $.ajax({
     					url: "bloco",//servlet BlocoServlet
     					type: "GET",
