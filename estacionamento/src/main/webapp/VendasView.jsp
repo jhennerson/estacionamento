@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,20 +21,16 @@ body {
 	<body>
 		<div class="container mt-5">
 			<div class="container-fluid p-5 bg-primary text-white text-center">
-				<h1 class="txt-center" id="lblAdmin">AdministraÃ§Ã£o</h1>
+				<h1 class="txt-center" id="lblAdmin">Gerenciamento de Vendas</h1>
 			</div>
 			<div class="container mt-3 d-flex justify-content-center border border-2">
-				<div class="d-grid gap-2 col-6 mx-auto">
-					<button type="button" class="btn btn-warning text-white m-3 p-3" id="btnGerenciarVagas">Gerenciar	Vagas</button>
-					<button type="button" class="btn btn-warning text-white m-3 p-3" id="btnGerenciarBlocos">Gerenciar	Blocos</button>
-					<button type="button" class="btn btn-warning text-white m-3 p-3" id="btnGerenciarUsuarios">Gerenciar	UsuÃ¡rios</button>
-				</div>
+				
 			</div>
 		</div>
 		
 		<div class="container mt-5">
 			<div class="mt-5 p-4 bg-dark text-white text-center">
-				<p>Instituto Federal de EducaÃ§Ã£o CiÃªncia e Tecnologia de SÃ£o Paulo - CÃ¢mpus Guarulhos</p>
+				<p>Instituto Federal de Educação Ciência e Tecnologia de São Paulo - Câmpus Guarulhos</p>
 				<p>Desenvolvido por: Jhennerson Barbosa da Silva</p>
 				<p>Professor: Cleber Oliveira - Disciplina: Projeto Web</p>
 			</div>
@@ -44,6 +40,6 @@ body {
 			$(document).ready(function() {
 		
 			});
-		</script>		
+		</script>
 	</body>
 </html>

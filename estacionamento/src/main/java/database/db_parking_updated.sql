@@ -3,9 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 20-Nov-2022 às 22:03
+-- Tempo de geração: 03-Jun-2023 às 20:09
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 8.1.10
+
+CREATE DATABASE db_parking;
+
+USE db_parking;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,12 +24,9 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `db_parking`
 --
-DROP DATABASE IF EXISTS db_parking;
 
-CREATE DATABASE IF NOT EXISTS db_parking;
 -- --------------------------------------------------------
 
-USE db_parking;
 --
 -- Estrutura da tabela `blocos`
 --
@@ -38,6 +39,13 @@ CREATE TABLE `blocos` (
   `vagas_motos` int(11) NOT NULL,
   `vagas_deficientes` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `blocos`
+--
+
+INSERT INTO `blocos` (`id`, `descricao`, `operador`, `vagas_carros`, `vagas_motos`, `vagas_deficientes`) VALUES
+(1, 'A', 'admin', 3, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -58,10 +66,6 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id`, `nome`, `senha`, `bloco`) VALUES
 (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '0');
-INSERT INTO `usuarios` (`id`, `nome`, `senha`, `bloco`) VALUES
-(2, 'jhennerson', '827ccb0eea8a706c4c34a16891f84e7b', 'A');
-INSERT INTO `blocos`(`id`, `descricao`, `operador`, `vagas_carros`, `vagas_motos`, `vagas_deficientes`) VALUES
-('1','A','jhennerson','14','10','6');
 
 -- --------------------------------------------------------
 
@@ -71,21 +75,20 @@ INSERT INTO `blocos`(`id`, `descricao`, `operador`, `vagas_carros`, `vagas_motos
 
 CREATE TABLE `vagas` (
   `id` int(11) NOT NULL,
-  `categoria` tinyint(4) NOT NULL,
+  `categoria` varchar(10) NOT NULL,
   `bloco` varchar(16) NOT NULL,
-  `estado` tinyint(1) NOT NULL,
+  `estado` varchar(7) NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
 --
--- Estrutura da tabela `vendas`
+-- Extraindo dados da tabela `vagas`
 --
 
 CREATE TABLE `vendas` (
   `id` int(11) NOT NULL,
   `valor` decimal(10,2) NOT NULL,
+  `preco_hora` decimal(10,2) NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -125,19 +128,19 @@ ALTER TABLE `vendas`
 -- AUTO_INCREMENT de tabela `blocos`
 --
 ALTER TABLE `blocos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT de tabela `vagas`
 --
 ALTER TABLE `vagas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=223;
 
 --
 -- AUTO_INCREMENT de tabela `vendas`

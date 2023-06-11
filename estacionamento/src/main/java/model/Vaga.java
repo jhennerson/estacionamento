@@ -6,12 +6,12 @@ import java.text.SimpleDateFormat;
 public class Vaga {
 	
 	private Integer id;
-	private Integer categoria;
+	private Categoria categoria;
 	private String bloco;
-	private Integer estado = 0;
+	private Estado estado = Estado.LIVRE;
 	private String timestamp;
 	
-	public Vaga(Integer id, Integer categoria, String bloco, Integer estado) {
+	public Vaga(Integer id, Categoria categoria, String bloco, Estado estado) {
 		super();
 		this.id = id;
 		this.categoria = categoria;
@@ -19,13 +19,13 @@ public class Vaga {
 		this.estado = estado;
 	}
 	
-	public Vaga(Integer categoria, String bloco) {
+	public Vaga(Categoria categoria, String bloco) {
 		super();
 		this.categoria = categoria;
 		this.bloco = bloco;
 	}
 	
-	public Vaga(Integer id, Integer categoria, String bloco) {
+	public Vaga(Integer id, Categoria categoria, String bloco) {
 		super();
 		this.id = id;
 		this.categoria = categoria;
@@ -43,11 +43,11 @@ public class Vaga {
 		this.id = id;
 	}
 
-	public Integer getCategoria() {
+	public Categoria getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(Integer categoria) {
+	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
 
@@ -59,11 +59,11 @@ public class Vaga {
 		this.bloco = bloco;
 	}
 
-	public Integer getEstado() {
+	public Estado getEstado() {
 		return estado;
 	}
 
-	public void setEstado(Integer estado) {
+	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
 

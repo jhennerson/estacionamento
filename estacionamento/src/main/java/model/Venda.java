@@ -7,12 +7,14 @@ public class Venda {
 
 	private Integer id;
 	private Double valor;
+	private Double precoHora;
 	private String timestamp;
 
-	public Venda(Integer id, Double valor, String timestamp) {
+	public Venda(Integer id, Double valor, Double precoHora, String timestamp) {
 		super();
 		this.id = id;
 		this.valor = valor;
+		this.precoHora = precoHora;
 		this.timestamp = timestamp;
 	}
 	
@@ -38,6 +40,14 @@ public class Venda {
 
 	public void setValor(Double valor) {
 		this.valor = valor;
+	}
+
+	public Double getPrecoHora() {
+		return precoHora;
+	}
+
+	public void setPrecoHora(Double precoHora) {
+		this.precoHora = precoHora;
 	}
 
 	public void setTimestamp(String timestamp) {

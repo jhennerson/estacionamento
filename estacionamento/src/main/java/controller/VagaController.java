@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import database.DBConnection;
+import model.Categoria;
+import model.Estado;
 import model.Operador;
 import model.Vaga;
 
@@ -48,9 +50,9 @@ public class VagaController {
 	
 	//salva a vaga no banco de dados
 	public void create(Vaga vaga) {
-		Integer categoria = vaga.getCategoria();
+		Categoria categoria = vaga.getCategoria();
 		String bloco = vaga.getBloco();
-		Integer estado = vaga.getEstado();
+		Estado estado = vaga.getEstado();
 		
 		String sql = "INSERT INTO vagas (categoria, bloco, estado) "
 				   + "VALUES ('" + categoria + "', '" + bloco + "', '" + estado + "')";
@@ -74,7 +76,7 @@ public class VagaController {
 	//altera os dados da vaga com id igual ao passado como parâmetro
 	public void update(Vaga vaga) {
 		Integer id = vaga.getId();
-		Integer categoria = vaga.getCategoria();
+		Categoria categoria = vaga.getCategoria();
 		String bloco = vaga.getBloco();
 		
 		if(id == null || categoria == null || bloco == null || bloco.isBlank()){
@@ -83,7 +85,7 @@ public class VagaController {
 		if(id < 0){
 			throw new IllegalArgumentException("Digite uma ID válida.");
 		}
-		if(categoria < 0){
+		if(categoria != Categoria.CARRO || categoria != Categoria.MOTO || categoria != Categoria.DEFICIENTE){
 			throw new IllegalArgumentException("Digite uma categoria válida.");
 		}
 		
@@ -110,6 +112,28 @@ public class VagaController {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Vaga find(Integer id) {
+		String sql = "SELECT FROM vagas WHERE id = '" + id + "'";
+		ResultSet rset = null;		
+		Vaga vaga = new Vaga();
+		
+		try {			
+			rset = query(sql);
+			
+			if(rset.next()) {				
+				vaga.setId(rset.getInt("id"));
+				vaga.setCategoria(Categoria.valueOf(rset.getString("categoria").toUpperCase()));
+				vaga.setBloco(rset.getString("bloco"));
+				vaga.setEstado(Estado.valueOf(rset.getString("estado").toUpperCase()));
+				vaga.setTimestamp(rset.getTimestamp("timestamp"));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return vaga;
 	}
 	
 	//apaga a vaga pelo ID
@@ -149,9 +173,9 @@ public class VagaController {
 				Vaga vaga = new Vaga();
 				
 				vaga.setId(rset.getInt("id"));
-				vaga.setCategoria(rset.getInt("categoria"));
+				vaga.setCategoria(Categoria.valueOf(rset.getString("categoria").toUpperCase()));
 				vaga.setBloco(rset.getString("bloco"));
-				vaga.setEstado(rset.getInt("estado"));
+				vaga.setEstado(Estado.valueOf(rset.getString("estado").toUpperCase()));
 				vaga.setTimestamp(rset.getTimestamp("timestamp"));
 				
 				vagas.add(vaga);
@@ -178,9 +202,9 @@ public class VagaController {
 				Vaga vaga = new Vaga();
 				
 				vaga.setId(rset.getInt("id"));
-				vaga.setCategoria(rset.getInt("categoria"));
+				vaga.setCategoria(Categoria.valueOf(rset.getString("categoria").toUpperCase()));
 				vaga.setBloco(rset.getString("bloco"));
-				vaga.setEstado(rset.getInt("estado"));
+				vaga.setEstado(Estado.valueOf(rset.getString("estado").toUpperCase()));
 				vaga.setTimestamp(rset.getTimestamp("timestamp"));
 				
 				vagas.add(vaga);
@@ -195,9 +219,9 @@ public class VagaController {
 	
 	//cria várias vagas de uma só vez
 	public void create(Vaga vaga, Integer quantidade) {
-		Integer categoria = vaga.getCategoria();
+		Categoria categoria = vaga.getCategoria();
 		String bloco = vaga.getBloco();
-		Integer estado = vaga.getEstado();
+		Estado estado = vaga.getEstado();
 		
 		if(quantidade <= 0) return;
 		
@@ -213,39 +237,23 @@ public class VagaController {
 		}		
 	}
 	
-	//altera e retorna o estado da vaga 0 = livre 1 = ocupado
-	public void alteraEstado(Integer id) {		
-		ResultSet rset = null;		
-		String sql = "SELECT estado FROM vagas WHERE id = '" + id + "'";
-		Integer estado = null;
-
-		try {					
-			rset = query(sql);
-			
-			if(rset.next()) {
-				estado = rset.getInt("estado");
-			}
-			
-			if(estado == 0) {
-				sql = "UPDATE vagas SET estado = 1 WHERE id = '" + id + "'";
-			} else {
-				sql = "UPDATE vagas SET estado = 0 WHERE id = '" + id + "'";
-			}
-			
-			try {
-				this.execute(sql);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+	//altera o estado da vaga pelo seu id
+	public void alteraEstado(Integer id, String estadoAtual) {		
+		String novoEstado = (estadoAtual.equals(Estado.LIVRE.toString())) ? Estado.OCUPADA.toString() : Estado.LIVRE.toString();
+		
+		String sql = "UPDATE vagas SET estado = '" + novoEstado + "' WHERE id = '" + id + "'";
+		
+		try {
+			this.execute(sql);
 		} catch(Exception e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 	
-	//retorna a quantidade de vagas de acordo com o estado informado 0 = livre 1 = ocupado
-	public Integer countEstado(Integer estado) {
+	//retorna a quantidade de vagas de acordo com o estado informado
+	public Integer countEstado(Estado estado) {
 		ResultSet rset = null;		
-		String sql = "SELECT COUNT(*) AS count FROM vagas WHERE estado = '" + estado + "'";
+		String sql = "SELECT COUNT(*) AS count FROM vagas WHERE estado = '" + estado.toString() + "'";
 		
 		Integer count = 0;
 		

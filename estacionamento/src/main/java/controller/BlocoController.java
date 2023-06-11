@@ -105,6 +105,30 @@ public class BlocoController {
 		}
 	}
 	
+	public Bloco find(Integer id) {
+		 String sql = "SELECT * FROM blocos WHERE id = '" + id + "'";
+		    ResultSet rset = null;
+		    Bloco bloco = new Bloco();
+
+		    try {
+		        rset = query(sql);
+
+		        if (rset.next()) {
+		            bloco.setId(rset.getInt("id"));
+		            bloco.setDescricao(rset.getString("descricao"));
+		            bloco.setOperador(rset.getString("operador"));
+		            bloco.setVagasCarros(rset.getInt("vagas_carros"));
+		            bloco.setVagasMotos(rset.getInt("vagas_motos"));
+		            bloco.setVagasDeficientes(rset.getInt("vagas_deficientes"));
+		        }
+
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+
+		    return bloco;
+	}
+	
 	//apaga o bloco pelo ID
 	public void delete(Integer id) {
 		

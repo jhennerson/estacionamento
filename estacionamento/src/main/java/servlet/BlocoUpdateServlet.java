@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import controller.OperadorController;
-import model.Operador;
+import controller.BlocoController;
+import model.Bloco;
 
-@WebServlet(name = "operador_update", urlPatterns = { "/operador_update" })
-public class OperadorUpdateServlet extends HttpServlet {
+@WebServlet(name = "blocoupdate", urlPatterns = { "/blocoupdate" })
+public class BlocoUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public OperadorUpdateServlet() {
+    public BlocoUpdateServlet() {
         super();
     }
 
@@ -25,11 +25,11 @@ public class OperadorUpdateServlet extends HttpServlet {
 		//lê o corpo da requisição e converte para objeto JSON
 		BufferedReader reader = request.getReader();
         Gson gson = new Gson();
-        Operador operadorGson = gson.fromJson(reader, Operador.class);		
-		OperadorController operadorController = new OperadorController();
+        Bloco blocoGson = gson.fromJson(reader, Bloco.class);		
+		BlocoController blocoController = new BlocoController();
 		
 		try {
-			operadorController.update(operadorGson);
+			blocoController.update(blocoGson);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -38,4 +38,5 @@ public class OperadorUpdateServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write("Dados recebidos pelo servlet com sucesso!");
 	}
+
 }

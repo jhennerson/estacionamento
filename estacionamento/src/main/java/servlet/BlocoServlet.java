@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import controller.BlocoController;
 import controller.VagaController;
 import model.Bloco;
+import model.Categoria;
 import model.Vaga;
 
 @WebServlet(name = "bloco", urlPatterns = { "/bloco" })
@@ -47,17 +48,12 @@ public class BlocoServlet extends HttpServlet {
 		BlocoController blocoController = new BlocoController();
 		VagaController vagaController = new VagaController();
 		
-		//categorias de vagas
-		Integer carro = 1;
-		Integer moto = 2;
-		Integer deficiente = 3;
-		
 		//cria o bloco e as vagas de acordo com a quantidade solicitada
 		try {
 			blocoController.create(blocoGson);
-			vagaController.create(new Vaga(carro, blocoGson.getDescricao()), blocoGson.getVagasCarros());
-			vagaController.create(new Vaga(moto, blocoGson.getDescricao()), blocoGson.getVagasMotos());
-			vagaController.create(new Vaga(deficiente, blocoGson.getDescricao()), blocoGson.getVagasDeficientes());
+			vagaController.create(new Vaga(Categoria.CARRO, blocoGson.getDescricao()), blocoGson.getVagasCarros());
+			vagaController.create(new Vaga(Categoria.MOTO, blocoGson.getDescricao()), blocoGson.getVagasMotos());
+			vagaController.create(new Vaga(Categoria.DEFICIENTE, blocoGson.getDescricao()), blocoGson.getVagasDeficientes());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -74,10 +70,15 @@ public class BlocoServlet extends HttpServlet {
         if (idBloco != null) {
             try {
                 //converte o ID para Integer
-                Integer id = Integer.parseInt(idBloco);
+                Integer id = Integer.parseInt(idBloco);                
                 
-                //chama o método de exclusão do bloco com o ID fornecido
                 BlocoController blocoController = new BlocoController();
+                
+                //apaga todas as vagas do bloco
+                VagaController vagaController = new VagaController();          
+                vagaController.deleteAll(blocoController.find(id).getDescricao());                
+                
+                //apaga o bloco pelo id fornecido
                 blocoController.delete(id);
                 
                 //define o código de resposta como 200 (OK) indicando sucesso

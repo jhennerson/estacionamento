@@ -48,9 +48,10 @@ private Statement statement;
 	//salva a venda no banco de dados
 	public void create(Venda venda) {
 		Double valor = venda.getValor();
+		Double precoHora = venda.getPrecoHora();
 		
-		String sql = "INSERT INTO vendas (valor) "
-				   + "VALUES ('" + valor + "')";
+		String sql = "INSERT INTO vendas (valor, preco_hora) "
+				   + "VALUES ('" + valor + "', '" + precoHora +"')";
 		
 		try {
 			if(valor > 0) this.execute(sql);
@@ -72,8 +73,9 @@ private Statement statement;
 	public void update(Venda venda) {
 		Integer id = venda.getId();
 		Double valor = venda.getValor();
+		Double precoHora = venda.getPrecoHora();
 
-		String sql = "UPDATE vendas SET valor = '" + valor + "' WHERE id = '" + id + "'";
+		String sql = "UPDATE vendas SET valor = '" + valor + ", preco_hora = '" + precoHora +"' WHERE id = '" + id + "'";
 		
 		try {
 			this.execute(sql);
@@ -108,6 +110,7 @@ private Statement statement;
 				
 				venda.setId(rset.getInt("id"));
 				venda.setValor(rset.getDouble("valor"));
+				venda.setPrecoHora(rset.getDouble("preco_hora"));
 				venda.setTimestamp(rset.getTimestamp("timestamp"));
 				
 				vendas.add(venda);
@@ -121,8 +124,12 @@ private Statement statement;
 	}
 	
 	//calcula o total a pagar em função de R$ 5 por hora
-	public Double calculatotal(Double horas, Double minutos) {
-		Double total = (Double) ((horas + (minutos / 60)) * 5d);
+	public Double calculatotal(Venda venda) {
+		String[] valoresTempo = venda.getTimestamp().split(":");
+		Double horas = Double.valueOf(valoresTempo[0]);
+		Double minutos = Double.valueOf(valoresTempo[1]);		
+		
+		Double total = (Double) ((horas + (minutos / 60)) * venda.getPrecoHora());
 		
 		return total;
 	}

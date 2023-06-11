@@ -58,12 +58,12 @@ public class OperadorServlet extends HttpServlet {
 
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //obter o ID do usuário a ser excluído a partir dos parâmetros da requisição
-        String idUsuario = request.getParameter("id");
+        String idOperador = request.getParameter("id");
         
-        if (idUsuario != null) {
+        if (idOperador != null) {
             try {
                 //converte o ID para Integer
-                Integer id = Integer.parseInt(idUsuario);
+                Integer id = Integer.parseInt(idOperador);
                 
                 //chama o método de exclusão do usuário com o ID fornecido
                 OperadorController operadorController = new OperadorController();

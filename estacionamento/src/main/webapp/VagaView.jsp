@@ -5,19 +5,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
-<script type="text/javascript">
-	$(document).ready(function() {
-
-	});
-</script>
 <style type="text/css">
 	.table-counter {
 		width: 8%;
@@ -28,11 +19,15 @@
 	}
 	
 	.table-common {
-		width: 23%;
+		width: 10%;
+	}
+	
+	.table-operations {
+		width: 16%;
 	}
 	
 	.btn-vaga-view {
-		width: 14%;
+		width: 20%;
 	}
 	
 	.btn-alterar-estado {
@@ -40,93 +35,174 @@
 	}
 </style>
 </head>
-<body>
-	<div class="container mt-5">
-		<div class="container-fluid p-5 bg-primary text-white text-center">
-			<h1 id="lblGerenciamentoDeVagas">Gerenciamento de Vagas</h1>
-		</div>
+	<body>
+		<div class="container mt-5">
+			<div class="container-fluid p-5 bg-primary text-white text-center">
+				<h1 id="lbl-gerenciamento-de-vagas">Gerenciamento de Vagas</h1>
+			</div>
+			
+			<div class="d-flex m-3 justify-content-evenly align-items-center">
+				<div class="d-flex">
+					<label class="fs-2" id="lbl-vagas-livres">Vagas Livres:</label>
+					<div class="border border-2 mx-2 px-3">
+						<span class="fs-3" id="span-vagas-livres"></span>
+					</div>
+				</div>
 		
-		<div class="d-flex m-3 justify-content-evenly align-items-center">
-			<div class="d-flex">
-				<label class="fs-2" id="lblSpanVagasLivres">Vagas Livres:</label>
-				<div class="border border-2 mx-2 px-3">
-					<span class="fs-3" id="spanVagasLivres"></span>
+				<div class="d-flex">
+					<label class="fs-2" id="lbl-vagas-ocupadas">Vagas Ocupadas:</label>
+					<div class="border border-2 mx-2 px-3">
+						<span class="fs-3" id="span-vagas-ocupadas"></span>
+					</div>
 				</div>
 			</div>
+			
+			<table class="table table-hover table-dark table-bordered my-3 text-center align-middle" id="tblVagas">
+				<thead>
+					<tr>
+						<th class="align-middle table-counter">ID</th>
+						<th class="align-middle table-common">Categoria</th>
+						<th class="align-middle table-common">Bloco</th>
+						<th class="align-middle table-common">Estado</th>
+						<th class="align-middle table-datetime">Início da Ocupação</th>
+						<th class="align-middle table-operations">Operações</th>
+					</tr>
+				</thead>
+				<tbody id="tbl-body-vagas"></tbody>
+			</table>
 	
-			<div class="d-flex">
-				<label class="fs-2" id="lblSpanVagasOcupadas">Vagas Ocupadas:</label>
-				<div class="border border-2 mx-2 px-3">
-					<span class="fs-3" id="spanVagasOcupadas"></span>
-				</div>
+			<div class="container text-center" id="buttons">
+				<button type="button" class="btn btn-primary p-3 m-1 btn-vaga-view" id="btn-relatorio">Relatório</button>
+				<button type="button" class="btn btn-primary p-3 m-1 btn-vaga-view" id="btn-voltar">Voltar</button>
 			</div>
 		</div>
 		
-		<table class="table table-striped table-bordered my-3 text-center align-middle" id="tblVagas">
-			<thead>
-				<tr>
-					<th class="align-middle table-counter text-primary">ID</th>
-					<th class="align-middle table-common text-primary">Categoria</th>
-					<th class="align-middle table-common text-primary">Bloco</th>
-					<th class="align-middle table-common text-primary">Estado</th>
-					<th class="align-middle table-datetime text-primary">Início da Ocupação</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="modal" id="modal-alterar-estado" tabindex="-1">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <h5 class="modal-title" id="confirmar-modal-label">Confirmar alteração</h5>
+		                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+		            </div>
+		            <div class="modal-body">
+		                <p class="fs-3 text-center">Alterar estado?</p>
+		            </div>
+		            <div class="modal-footer justify-content-center">
+		                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+		                <button type="button" class="btn btn-primary" id="btn-confirmar-alteracao">Sim</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
 		
-		<label class="fs-4">Vaga Selecionada:</label>
-		
-		<table class="table table-striped table-bordered my-3 text-center align-middle" id="tblLinhaSelecionada">
-			<tr>
-				<th class="align-middle table-counter text-danger"></th>
-				<th class="align-middle table-common text-danger"></th>
-				<th class="align-middle table-common text-danger"></th>
-				<th class="align-middle table-common text-danger"></th>
-				<th class="align-middle table-datetime text-danger"></th>
-			</tr>
-		</table>
-
-		<div class="d-flex m-3 justify-content-evenly align-items-center">
-			<div class="d-flex">
-				<label class="fs-3" id="lblSpanTempoOcupado">Tempo ocupado:</label>
-				<div class="border border-2 mx-2 px-3">
-					<span class="fs-3" id="spanTempoOcupado"></span>
-				</div>
-			</div>
-	
-			<div class="d-flex">
-				<label class="fs-3" id="lblSpanValorTotal">Valor total:</label>
-				<div class="border border-2 mx-2 px-3">
-					<span class="fs-3" id="spanValorTotal"></span>
-				</div>
+		<div class="container mt-5">
+			<div class="mt-5 p-4 bg-dark text-white text-center">
+				<p>Instituto Federal de Educação Ciência e Tecnologia de São Paulo - Câmpus Guarulhos</p>
+				<p>Desenvolvido por: Jhennerson Barbosa da Silva</p>
+				<p>Professor: Cleber Oliveira - Disciplina: Projeto Web</p>
 			</div>
 		</div>
-
-
-		<div class="d-flex my-3" id="buttons">
-			<button type="button" class="btn btn-primary p-3 m-1 btn-vaga-view" id="btnLimpar">Limpar</button>
-			<button type="button" class="btn btn-primary p-3 m-1 btn-vaga-view" id="btnCalcular">Calcular</button>
-			<button type="button" class="btn btn-primary p-3 m-1 btn-vaga-view" id="btnSalvar">Salvar</button>
-			<button type="button" class="btn btn-primary p-3 m-1 btn-vaga-view" id="btnRelatorio">Relatório</button>
-			<button type="button" class="btn btn-primary p-3 m-1 btn-vaga-view" id="btnVoltar">Voltar</button>
-			<button type="button" class="btn btn-danger p-3 m-1 btn-alterar-estado fs-4" id="btnAlterarEstado">Alterar Estado</button>
-		</div>
-	</div>
-	<div class="container mt-5">
-		<div class="mt-5 p-4 bg-dark text-white text-center">
-			<p>Instituto Federal de Educação Ciência e Tecnologia de São Paulo - Câmpus Guarulhos</p>
-			<p>Desenvolvido por: Jhennerson Barbosa da Silva</p>
-			<p>Professor: Cleber Oliveira - Disciplina: Projeto Web</p>
-		</div>
-	</div>
-</body>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				
+				var tabelaVagas = $("#tbl-body-vagas");
+				var modalAlterarEstado = $("#modal-alterar-estado");
+				
+				atualizarTabelaVagas();
+				
+				function atualizarTabelaVagas() {
+					//variáveis de contagem de vagas LIVRES e OCUPADAS
+					var contagemVagasLivres = 0;
+					var contagemVagasOcupadas = 0;
+					
+					//exibição da contagem de vagas
+					var vagasLivres = $("#span-vagas-livres").text(contagemVagasLivres);
+					var vagasOcupadas = $("#span-vagas-ocupadas").text(contagemVagasOcupadas);
+					
+					tabelaVagas.empty();
+					
+					$.ajax({
+						url: "vaga",
+						type: "GET",
+						dataType: "json",
+						success: function(response) {
+							$.each(response, function(index, vaga) {
+								var row = $("<tr></tr>");									
+									
+								if(vaga.estado == "LIVRE") {
+									row = $("<tr></tr>").addClass("table-success");
+									contagemVagasLivres++;
+									vagasLivres.text(contagemVagasLivres);
+								} else {
+									row = $("<tr></tr>").addClass("table-danger");
+									contagemVagasOcupadas++;
+									vagasOcupadas.text(contagemVagasOcupadas);
+								}
+								
+								var idCell = $("<td></td>").text(vaga.id);
+								var categoriaCell = $("<td></td>").text(vaga.categoria);
+								var blocoCell = $("<td></td>").text(vaga.bloco);
+								var estadoCell = $("<td></td>").text(vaga.estado);
+								var timestampCell = $("<td></td>").text(vaga.timestamp);
+								
+								var btAlterarEstado = $("<button></button>")
+									.addClass("btn btn-primary btn-operacoes")
+									.text("Aterar Estado")
+									.attr("data-bs-toggle", "modal")
+									.attr("data-bs-target", "#modal-alterar-estado")
+									.one("click", function() {
+										abrirModalAlterarEstado(vaga.id, vaga.estado);
+									});									
+								
+								var btCalcularPreco = $("<button></button>")
+									.addClass("btn btn-warning")
+									.text("Calcular Preço")
+									.attr("data-bs-toggle", "modal")
+									.attr("data-bs-target", "#modal-calcular-preco")
+									.one("click", function() {
+										abrirModalCalcularPreco(vaga.id, vaga.timestamp);
+									});									
+								
+								var operacoesCell = $("<td></td>")
+									.append(btAlterarEstado)
+									.append(" ")
+									.append(btCalcularPreco);
+								
+								row.append(idCell);
+								row.append(categoriaCell);
+								row.append(blocoCell);
+								row.append(estadoCell);
+								row.append(timestampCell);
+								row.append(operacoesCell);
+								
+								tabelaVagas.append(row);
+							});
+						}
+					});					
+				}
+				
+				function abrirModalAlterarEstado(id, estado) {
+					modalAlterarEstado.modal("show");
+					
+					//corfirma a alteração do estado da vaga "LIVRE" para "OCUPADO" e vice versa
+					$("#btn-confirmar-alteracao").one("click", function() {
+						$.ajax({
+							url: "vaga_update?id=" + id + "&estado=" + estado,
+							type: "POST",
+							success: function(response) {
+                                alert("Estado da vaga alterado com sucesso!");
+                                atualizarTabelaVagas();
+                            },
+                            error: function(xhr, status, error) {
+                                console.log("Erro ao alterar o estado da vaga!");
+                                console.log(xhr.responseText);
+                            }
+						});
+						modalAlterarEstado.modal("hide");
+					});					
+				}
+			});
+		</script>
+		
+	</body>
 </html>
