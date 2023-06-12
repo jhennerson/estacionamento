@@ -21,12 +21,11 @@ public class VagaUpdateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		//obtém o ID enviado como parâmetro no POST
         Integer idVaga = Integer.parseInt(request.getParameter("id"));
-        String estadoVaga = request.getParameter("estado");
 		
 		VagaController vagaController = new VagaController();
 		
 		try {
-			vagaController.alteraEstado(idVaga, estadoVaga);
+			vagaController.alterarEstado(idVaga);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

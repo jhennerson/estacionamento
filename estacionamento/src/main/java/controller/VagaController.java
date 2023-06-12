@@ -65,8 +65,7 @@ public class VagaController {
 	}
 	
 	//recupera informações da vaga pelo id
-	public ResultSet read(Vaga vaga) {		
-		Integer id = vaga.getId();
+	public ResultSet read(Integer id) {
 		
 		String sql = "SELECT * FROM vagas WHERE id = '" + id + "'";
 		
@@ -238,13 +237,28 @@ public class VagaController {
 	}
 	
 	//altera o estado da vaga pelo seu id
-	public void alteraEstado(Integer id, String estadoAtual) {		
-		String novoEstado = (estadoAtual.equals(Estado.LIVRE.toString())) ? Estado.OCUPADA.toString() : Estado.LIVRE.toString();
+	public void alterarEstado(Integer id) {
+		String estadoAtual = "";
+		ResultSet rset = null;		
+		String sqlSelect = "SELECT estado FROM vagas WHERE id = " + id;
 		
-		String sql = "UPDATE vagas SET estado = '" + novoEstado + "' WHERE id = '" + id + "'";
+		try {					
+			rset = query(sqlSelect);
+			
+			if(rset.next()) {
+				estadoAtual = rset.getString("estado");
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		String novoEstado = (estadoAtual.toString().equals(Estado.LIVRE.toString())) ? Estado.OCUPADA.toString() : Estado.LIVRE.toString();
+		
+		String sqlUpdate = "UPDATE vagas SET estado = '" + novoEstado + "' WHERE id = '" + id + "'";
 		
 		try {
-			this.execute(sql);
+			this.execute(sqlUpdate);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

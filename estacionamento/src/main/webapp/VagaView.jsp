@@ -107,6 +107,7 @@
 				
 				var tabelaVagas = $("#tbl-body-vagas");
 				var modalAlterarEstado = $("#modal-alterar-estado");
+				var idVagaSelecionada;
 				
 				atualizarTabelaVagas();
 				
@@ -150,8 +151,9 @@
 									.text("Aterar Estado")
 									.attr("data-bs-toggle", "modal")
 									.attr("data-bs-target", "#modal-alterar-estado")
-									.one("click", function() {
-										abrirModalAlterarEstado(vaga.id, vaga.estado);
+									.on("click", function() {
+										idVagaSelecionada = vaga.id;
+										abrirModalAlterarEstado();
 									});									
 								
 								var btCalcularPreco = $("<button></button>")
@@ -159,8 +161,9 @@
 									.text("Calcular Preço")
 									.attr("data-bs-toggle", "modal")
 									.attr("data-bs-target", "#modal-calcular-preco")
-									.one("click", function() {
-										abrirModalCalcularPreco(vaga.id, vaga.timestamp);
+									.on("click", function() {
+										idVagaSelecionada = vaga.id;
+										abrirModalCalcularPreco();
 									});									
 								
 								var operacoesCell = $("<td></td>")
@@ -181,14 +184,15 @@
 					});					
 				}
 				
-				function abrirModalAlterarEstado(id, estado) {
+				function abrirModalAlterarEstado() {
 					modalAlterarEstado.modal("show");
 					
 					//corfirma a alteração do estado da vaga "LIVRE" para "OCUPADO" e vice versa
 					$("#btn-confirmar-alteracao").one("click", function() {
 						$.ajax({
-							url: "vaga_update?id=" + id + "&estado=" + estado,
+							url: "vaga_update",
 							type: "POST",
+							data: {id: idVagaSelecionada},
 							success: function(response) {
                                 alert("Estado da vaga alterado com sucesso!");
                                 atualizarTabelaVagas();
