@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,26 +11,26 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import controller.BlocoController;
-import model.Bloco;
+import controller.PrecoController;
+import model.Preco;
 
-@WebServlet(name = "bloco_update", urlPatterns = { "/bloco_update" })
-public class BlocoUpdateServlet extends HttpServlet {
+@WebServlet(name = "preco_update", urlPatterns = { "/preco_update" })
+public class PrecoUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public BlocoUpdateServlet() {
+    public PrecoUpdateServlet() {
         super();
     }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//lê o corpo da requisição e converte para objeto JSON
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+    	//lê o corpo da requisição e converte para objeto JSON
 		BufferedReader reader = request.getReader();
         Gson gson = new Gson();
-        Bloco blocoGson = gson.fromJson(reader, Bloco.class);		
-		BlocoController blocoController = new BlocoController();
+        Preco precoGson = gson.fromJson(reader, Preco.class);
+		PrecoController precoController = new PrecoController();
 		
 		try {
-			blocoController.update(blocoGson);
+			precoController.update(precoGson);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

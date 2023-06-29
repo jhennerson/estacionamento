@@ -124,7 +124,7 @@ private Statement statement;
 	}
 	
 	//calcula o total a pagar em função de R$ 5 por hora
-	public Double calculatotal(Venda venda) {
+	public Double calcularTotal(Venda venda) {
 		String[] valoresTempo = venda.getTimestamp().split(":");
 		Double horas = Double.valueOf(valoresTempo[0]);
 		Double minutos = Double.valueOf(valoresTempo[1]);		

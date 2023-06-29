@@ -281,5 +281,4 @@ public class VagaController {
 		}
 		return count;
 	}
-
 }

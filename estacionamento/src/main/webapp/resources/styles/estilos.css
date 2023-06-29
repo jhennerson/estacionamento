@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+.areaCadUser {
+	width: 50%;
+	margin-left: 25%;
+}
+
+.table-counter {
+    width: 8%;
+}
+
+.table-ultima-atualizacao {
+    width: 20%;
+}
+
+.table-common {
+    width: 10%;
+}
+
+.table-operations {
+    width: 16%;
+}
+
+.btn-vaga-view {
+    width: 20%;
+}
+
+.btn-alterar-estado {
+    width: 28%
+}
+
+.table-common-operadores, .table-common-blocos, .table-operations-operadores, .table-operations-blocos, .table-operations-vagas {
+    width: 20%;
+}
+
+.btn-operador-view, .table-precos-valor, .table-precos-ultima-atualizacao {
+	width: 20%;
+}
+
+.btn-operations-operadores, .btn-operations-blocos, .btn-operations-vagas {
+	width: 45%;
+}
+
+.btn-bloco-view, btn-opcoes {
+	width: 20%
+}
+
+.btn-operacoes {
+    width: 45%;
+}
+
+.table-ultima-atualizacao-relatorio {
+	width: 40%;
+}
+
+.relatorio-value {
+	width: 40%;
+}
