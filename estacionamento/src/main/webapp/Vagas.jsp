@@ -18,14 +18,14 @@
 			<div class="container main-box">			
 				<div class="d-flex m-3 justify-content-evenly align-items-center">
 					<div class="d-flex my-3">
-						<label class="text-success fs-2" id="lbl-vagas-livres">Vagas Livres:</label>
+						<label class="fs-2" id="lbl-vagas-livres">Vagas Livres:</label>
 						<div class="border border-success border-3 rounded mx-2 px-3">
 							<span class="text-success fs-3" id="span-vagas-livres"></span>
 						</div>
 					</div>
 			
 					<div class="d-flex my-3">
-						<label class="text-danger fs-2" id="lbl-vagas-ocupadas">Vagas Ocupadas:</label>
+						<label class="fs-2" id="lbl-vagas-ocupadas">Vagas Ocupadas:</label>
 						<div class="border border-danger border-3 rounded mx-2 px-3">
 							<span class="text-danger fs-3" id="span-vagas-ocupadas"></span>
 						</div>
