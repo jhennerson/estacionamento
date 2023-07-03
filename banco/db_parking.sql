@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03-Jun-2023 às 20:09
+-- Tempo de geração: 03-Jul-2023 às 04:15
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 8.1.10
 
@@ -45,7 +45,7 @@ CREATE TABLE `blocos` (
 --
 
 INSERT INTO `blocos` (`id`, `descricao`, `operador`, `vagas_carros`, `vagas_motos`, `vagas_deficientes`) VALUES
-(98, 'C', 'jhennerson', 1, 1, 1);
+(110, 'A', 'jhennerson', 3, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -64,9 +64,9 @@ CREATE TABLE `precos` (
 --
 
 INSERT INTO `precos` (`id`, `valor`, `timestamp`) VALUES
-(1, 10, '2023-06-29 13:53:28'),
 (3, 5, '2023-06-29 14:26:39'),
-(8, 11, '2023-06-29 22:03:04');
+(11, 7, '2023-07-03 01:25:02'),
+(12, 12, '2023-07-03 01:52:16');
 
 -- --------------------------------------------------------
 
@@ -108,9 +108,12 @@ CREATE TABLE `vagas` (
 --
 
 INSERT INTO `vagas` (`id`, `categoria`, `bloco`, `estado`, `timestamp`) VALUES
-(249, 'CARRO', 'C', 'LIVRE', '2023-06-29 18:26:26'),
-(250, 'MOTO', 'C', 'LIVRE', '2023-06-29 17:10:36'),
-(251, 'DEFICIENTE', 'C', 'LIVRE', '2023-06-28 23:54:29');
+(295, 'CARRO', 'A', 'OCUPADA', '2023-07-02 22:50:15'),
+(296, 'CARRO', 'A', 'LIVRE', '2023-07-02 22:50:19'),
+(297, 'CARRO', 'A', 'LIVRE', '2023-07-02 22:52:30'),
+(298, 'MOTO', 'A', 'LIVRE', '2023-07-02 22:50:23'),
+(299, 'MOTO', 'A', 'LIVRE', '2023-07-02 22:48:23'),
+(300, 'DEFICIENTE', 'A', 'LIVRE', '2023-07-02 22:23:11');
 
 -- --------------------------------------------------------
 
@@ -120,10 +123,20 @@ INSERT INTO `vagas` (`id`, `categoria`, `bloco`, `estado`, `timestamp`) VALUES
 
 CREATE TABLE `vendas` (
   `id` int(11) NOT NULL,
-  `valor` decimal(10,2) NOT NULL,
-  `preco_hora` decimal(10,2) NOT NULL,
+  `preco_hora` double NOT NULL,
+  `valor` double NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `vendas`
+--
+
+INSERT INTO `vendas` (`id`, `preco_hora`, `valor`, `timestamp`) VALUES
+(9, 5, 392.2, '2023-07-02 09:52:47'),
+(24, 7, 105.26, '2023-07-02 22:25:27'),
+(28, 5, 75.01, '2023-07-02 22:50:36'),
+(29, 5, 75.2, '2023-07-02 22:52:41');
 
 --
 -- Índices para tabelas despejadas
@@ -167,31 +180,31 @@ ALTER TABLE `vendas`
 -- AUTO_INCREMENT de tabela `blocos`
 --
 ALTER TABLE `blocos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT de tabela `precos`
 --
 ALTER TABLE `precos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT de tabela `vagas`
 --
 ALTER TABLE `vagas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=289;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=330;
 
 --
 -- AUTO_INCREMENT de tabela `vendas`
 --
 ALTER TABLE `vendas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

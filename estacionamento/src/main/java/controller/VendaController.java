@@ -50,7 +50,7 @@ private Statement statement;
 		Double precoHora = venda.getPrecoHora();
 		Double valor = venda.getValor();
 		
-		String sql = "INSERT INTO vendas (operador, bloco, preco_hora, valor) "
+		String sql = "INSERT INTO vendas (preco_hora, valor) "
 				   + "VALUES ('" + precoHora + "', '" + valor + "')";
 		
 		try {

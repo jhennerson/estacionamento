@@ -84,7 +84,7 @@ $(document).ready(function() {
 			success: function(response) {
 				var operadorSelect = $("#form-cadastrar-bloco-operador");
 				operadorSelect.empty();
-				$.each(response, function(operadorOption) {
+				$.each(response, function(index, operadorOption) {
 					operadorSelect.append($("<option></option>").text(operadorOption.nome).val(operadorOption.id));
 				});
 				atualizarTabelaBlocos();

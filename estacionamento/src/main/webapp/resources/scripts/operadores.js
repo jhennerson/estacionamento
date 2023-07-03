@@ -139,7 +139,7 @@ $(document).ready(function() {
 			dataType: "json",
 			success: function(response) {
 				var blocoSelect = $("#form-editar-operador-bloco");
-				$.each(response, function(blocoOption) {
+				$.each(response, function(index, blocoOption) {
 					blocoSelect.append($("<option></option>").text(blocoOption.descricao).val(blocoOption.id));
 				});
 				atualizarTabelaOperadores();

@@ -149,15 +149,11 @@ $(document).ready(function() {
 	formCalcularTotal.submit(function(event) {
 		event.preventDefault();
 
-		var operador = $("#form-calcular-venda-operador").val();
-		var bloco = $("#form-calcular-venda-bloco").val();
 		var precoHora = $("#form-calcular-venda-preco-hora option:selected").text();
 		var valor = $("#form-calcular-venda-valor").val().replace(/,/, '.');
 		var valorConvertido = parseFloat(valor);
 
 		var venda = {
-			operador: operador,
-			bloco: bloco,
 			precoHora: precoHora,
 			valor: valorConvertido
 		};
