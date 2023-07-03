@@ -30,25 +30,21 @@ public class BlocoServlet extends HttpServlet {
 		BlocoController blocoController = new BlocoController();
 	    List<Bloco> blocos = blocoController.getList();
 
-        //configurar a resposta como JSON
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        //converter a lista de blocos em JSON e enviar a resposta
         Gson gson = new Gson();
         String json = gson.toJson(blocos);
         response.getWriter().write(json);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//lê o corpo da requisição e converte para objeto JSON
 		BufferedReader reader = request.getReader();
         Gson gson = new Gson();
         Bloco blocoGson = gson.fromJson(reader, Bloco.class);		
 		BlocoController blocoController = new BlocoController();
 		VagaController vagaController = new VagaController();
-		
-		//cria o bloco e as vagas de acordo com a quantidade solicitada
+
 		try {
 			blocoController.create(blocoGson);
 			vagaController.create(new Vaga(Categoria.CARRO, blocoGson.getDescricao()), blocoGson.getVagasCarros());
@@ -64,31 +60,22 @@ public class BlocoServlet extends HttpServlet {
 	}
 
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//obter o ID do bloco a ser excluído a partir dos parâmetros da requisição
         String idBloco = request.getParameter("id");
         
         if (idBloco != null) {
             try {
-                //converte o ID para Integer
-                Integer id = Integer.parseInt(idBloco);                
-                
+                Integer id = Integer.parseInt(idBloco);
                 BlocoController blocoController = new BlocoController();
+                VagaController vagaController = new VagaController();
                 
-                //apaga todas as vagas do bloco
-                VagaController vagaController = new VagaController();          
-                vagaController.deleteAll(blocoController.find(id).getDescricao());                
-                
-                //apaga o bloco pelo id fornecido
+                vagaController.deleteAll(blocoController.find(id).getDescricao());
                 blocoController.delete(id);
                 
-                //define o código de resposta como 200 (OK) indicando sucesso
                 response.setStatus(HttpServletResponse.SC_OK);
             } catch (NumberFormatException e) {
-                //se o ID fornecido não for um número válido, define o código de resposta como 400 (Bad Request)
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         } else {
-            //se o ID do bloco não for fornecido, define o código de resposta como 400 (Bad Request)
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
 	}

@@ -45,7 +45,28 @@ CREATE TABLE `blocos` (
 --
 
 INSERT INTO `blocos` (`id`, `descricao`, `operador`, `vagas_carros`, `vagas_motos`, `vagas_deficientes`) VALUES
-(1, 'A', 'admin', 3, 2, 1);
+(98, 'C', 'jhennerson', 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `precos`
+--
+
+CREATE TABLE `precos` (
+  `id` int(11) NOT NULL,
+  `valor` double NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `precos`
+--
+
+INSERT INTO `precos` (`id`, `valor`, `timestamp`) VALUES
+(1, 10, '2023-06-29 13:53:28'),
+(3, 5, '2023-06-29 14:26:39'),
+(8, 11, '2023-06-29 22:03:04');
 
 -- --------------------------------------------------------
 
@@ -65,7 +86,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nome`, `senha`, `bloco`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '0');
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '0'),
+(92, 'jhennerson', 'e10adc3949ba59abbe56e057f20f883e', 'A');
 
 -- --------------------------------------------------------
 
@@ -85,6 +107,17 @@ CREATE TABLE `vagas` (
 -- Extraindo dados da tabela `vagas`
 --
 
+INSERT INTO `vagas` (`id`, `categoria`, `bloco`, `estado`, `timestamp`) VALUES
+(249, 'CARRO', 'C', 'LIVRE', '2023-06-29 18:26:26'),
+(250, 'MOTO', 'C', 'LIVRE', '2023-06-29 17:10:36'),
+(251, 'DEFICIENTE', 'C', 'LIVRE', '2023-06-28 23:54:29');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `vendas`
+--
+
 CREATE TABLE `vendas` (
   `id` int(11) NOT NULL,
   `valor` decimal(10,2) NOT NULL,
@@ -100,6 +133,12 @@ CREATE TABLE `vendas` (
 -- Índices para tabela `blocos`
 --
 ALTER TABLE `blocos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `precos`
+--
+ALTER TABLE `precos`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -128,19 +167,25 @@ ALTER TABLE `vendas`
 -- AUTO_INCREMENT de tabela `blocos`
 --
 ALTER TABLE `blocos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+
+--
+-- AUTO_INCREMENT de tabela `precos`
+--
+ALTER TABLE `precos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT de tabela `vagas`
 --
 ALTER TABLE `vagas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=223;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=289;
 
 --
 -- AUTO_INCREMENT de tabela `vendas`

@@ -27,18 +27,16 @@ public class VagaServlet extends HttpServlet {
 		VagaController vagaController = new VagaController();
 	    List<Vaga> vagas = vagaController.getList();
 
-        //configurar a resposta como JSON
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        //converter a lista de blocos em JSON e enviar a resposta
         Gson gson = new Gson();
         String json = gson.toJson(vagas);
+        
         response.getWriter().write(json);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//lê o corpo da requisição e converte para objeto JSON
 		BufferedReader reader = request.getReader();
         Gson gson = new Gson();
         Vaga vagaGson = gson.fromJson(reader, Vaga.class);
@@ -56,26 +54,19 @@ public class VagaServlet extends HttpServlet {
 	}
 
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//obter o ID do usuário a ser excluído a partir dos parâmetros da requisição
         String idVaga = request.getParameter("id");
         
         if (idVaga != null) {
             try {
-                //converte o ID para Integer
                 Integer id = Integer.parseInt(idVaga);
-                
-                //chama o método de exclusão do usuário com o ID fornecido
                 VagaController vagaController = new VagaController();
                 vagaController.delete(id);
-                
-                //define o código de resposta como 200 (OK) indicando sucesso
+
                 response.setStatus(HttpServletResponse.SC_OK);
             } catch (NumberFormatException e) {
-                //se o ID fornecido não for um número válido, define o código de resposta como 400 (Bad Request)
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         } else {
-            //se o ID do usuário não for fornecido, define o código de resposta como 400 (Bad Request)
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
 	}

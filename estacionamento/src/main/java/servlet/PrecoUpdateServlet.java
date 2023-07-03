@@ -22,8 +22,7 @@ public class PrecoUpdateServlet extends HttpServlet {
         super();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-    	//lê o corpo da requisição e converte para objeto JSON
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		BufferedReader reader = request.getReader();
         Gson gson = new Gson();
         Preco precoGson = gson.fromJson(reader, Preco.class);

@@ -22,7 +22,6 @@ public class OperadorUpdateServlet extends HttpServlet {
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//lê o corpo da requisição e converte para objeto JSON
 		BufferedReader reader = request.getReader();
         Gson gson = new Gson();
         Operador operadorGson = gson.fromJson(reader, Operador.class);		

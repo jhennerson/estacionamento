@@ -6,8 +6,8 @@ import java.text.SimpleDateFormat;
 public class Venda {
 
 	private Integer id;
-	private Double valor;
 	private Double precoHora;
+	private Double valor;
 	private String timestamp;
 
 	public Venda(Integer id, Double valor, Double precoHora, String timestamp) {

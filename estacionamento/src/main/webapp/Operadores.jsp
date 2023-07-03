@@ -12,27 +12,36 @@
 </head>
 <body>
 	<div class="container mt-5">
-	    <div class="container-fluid p-5 bg-primary text-white text-center">
+	    <div class="container-fluid mb-3 p-5 bg-dark text-white text-center">
 	        <h1 id="lbl-gerenciamento-de-operadores">Gerenciamento de Operadores</h1>
 	    </div>
-	
-        <table class="table table-striped table-bordered my-3 text-center align-middle" id="tbl-operadores">
-            <thead>
-                <tr>
-                    <th class="align-middle table-counter text-primary">ID</th>
-                    <th class="align-middle table-common text-primary">Nome</th>
-                    <th class="align-middle table-common text-primary">Senha</th>
-                    <th class="align-middle table-common text-primary">Bloco</th>
-                    <th class="align-middle table-operations-operadores text-primary">Operações</th>
-                </tr>
-            </thead>
-            <tbody id="tbl-body-operadores"></tbody>
-        </table>
-	
-	    <div class="container text-center">
-	        <button type="button" class="btn btn-primary p-3 m-1 btn-opcoes" id="btn-cadastrar">Cadastrar</button>
-	        <button type="button" value="voltar" class="btn btn-primary p-3 m-1 btn-opcoes" id="btn-voltar" onclick="document.location.href='Admin.jsp'">Voltar</button>
-	    </div>
+	    <div class="container main-box">	
+	        <table class="table table-striped table-bordered my-3 text-center align-middle" id="tbl-operadores">
+	            <thead>
+	                <tr>
+	                    <th class="align-middle text-primary">ID</th>
+	                    <th class="align-middle text-primary">Nome</th>
+	                    <th class="align-middle text-primary">Senha</th>
+	                    <th class="align-middle text-primary">Bloco</th>
+	                    <th class="align-middle text-primary">Operações</th>
+	                </tr>
+	            </thead>
+	            <tbody id="tbl-body-operadores"></tbody>
+	        </table>
+		
+		    <div class="d-flex flex-row justify-content-center">
+		        <div>
+		        	<button type="button" class="btn btn-primary p-3 m-3" id="btn-cadastrar">Cadastrar</button>
+		        </div>
+		        
+				<div>
+					<form action="autenticador" method="POST">
+		       			<input type="hidden" name="nome" value="<%= session.getAttribute("nome") %>">
+		       			<button type="submit" value="voltar" class="btn btn-danger p-3 m-3 btn-voltar" id="btn-voltar">Voltar</button>
+		       		</form>
+	       		</div>
+		    </div>	    
+	   </div>
 	</div>        
 	      
     <div class="modal" id="modal-cadastrar-operador" tabindex="-1">

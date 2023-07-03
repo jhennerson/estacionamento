@@ -11,8 +11,7 @@ $(document).ready(function() {
 	atualizarTabelaOperadores();
 	
 	$("#btn-cadastrar").click(abrirModalCadastrarOperador);
-	
-	//preenche a tabela com os dados dos operadores e os botões de operações para cada operador
+
 	function atualizarTabelaOperadores() {
 		tabelaOperadores.empty();
 		
@@ -30,7 +29,7 @@ $(document).ready(function() {
                     var blocoCell = $("<td></td>").text(operador.bloco);
 
                     var btEditar = $("<button></button>")
-                        .addClass("btn btn-primary btn-operations-operadores")
+                        .addClass("btn btn-primary btn-operacoes btn-operacoes-operadores")
                         .text("Editar")
                         .attr("data-operador-id", operador.id)
                         .attr("data-bs-toggle", "modal")
@@ -41,7 +40,7 @@ $(document).ready(function() {
                         });
 
                     var btDeletar = $("<button></button>")
-                        .addClass("btn btn-danger btn-operations-operadores")
+                        .addClass("btn btn-danger btn-operacoes btn-operacoes-operadores")
                         .text("Deletar")
                         .attr("data-operador-id", operador.id)
                         .attr("data-bs-toggle", "modal")
@@ -73,14 +72,12 @@ $(document).ready(function() {
 	
 	function abrirModalCadastrarOperador() {
     	modalCadastrarOperador.modal("show");
-    	
-    	//resgata lista de blocos
+
         $.ajax({
 			url: "bloco",
 			type: "GET",
 			dataType: "json",
 			success: function(response) {
-				//preencher o campo "bloco" com as opções da lista de blocos
 				var blocoSelect = $("#form-cadastrar-operador-bloco");
 				blocoSelect.empty();
 				$.each(response, function(index, blocoOption) {
@@ -96,25 +93,20 @@ $(document).ready(function() {
     }
     
     formCadastrarOperador.submit(function(event) {
-		//previne o recarregamento da página
 		event.preventDefault();
 
-		//obtém os valores dos campos do formulário
 		var nome = $("#form-cadastrar-operador-nome").val();
 		var senha = $("#form-cadastrar-operador-senha").val();
 		var bloco = $("#form-cadastrar-operador-bloco option:selected").text();
 
-		//cria um JSON para o operador
 		var usuario = {
 			nome: nome,
 			senha: senha,
 			bloco: bloco
 		};
 
-		//converte o JSON para uma string
 		var usuarioJSON = JSON.stringify(usuario);
 
-		//configura a requisição AJAX
 		$.ajax({
 			url: "operador",
 			type: "POST",
@@ -140,14 +132,12 @@ $(document).ready(function() {
 		modalEditarOperador.find("#form-editar-operador-nome").val(operadorSelecionado.nome);
 	  	modalEditarOperador.find("#form-editar-operador-senha").val(operadorSelecionado.senha);
 	  	modalEditarOperador.find("#form-editar-operador-bloco").empty().append("<option>" + operadorSelecionado.bloco + "</option>");
-  		
-	  	//resgata lista de blocos
+
         $.ajax({
 			url: "bloco",
 			type: "GET",
 			dataType: "json",
 			success: function(response) {
-				//preencher o campo "bloco" com as opções da lista de blocos
 				var blocoSelect = $("#form-editar-operador-bloco");
 				$.each(response, function(blocoOption) {
 					blocoSelect.append($("<option></option>").text(blocoOption.descricao).val(blocoOption.id));
@@ -162,16 +152,13 @@ $(document).ready(function() {
     }
     
     formEditarOperador.submit(function(event) {
-		//previnir o recarregamento da página
 		event.preventDefault();
 
-		//obter os valores dos campos do formulário
 		var id = $("#form-editar-operador-id").val();
 		var nome = $("#form-editar-operador-nome").val();
 		var senha = $("#form-editar-operador-senha").val();
 		var bloco = $("#form-editar-operador-bloco option:selected").text();
 
-		//criar um JSON de operador
 		var operadorEdit = {
 			id: id,
 			nome: nome,
@@ -179,12 +166,10 @@ $(document).ready(function() {
 			bloco: bloco
 		};
 
-		//converter o JSON para uma string
 		var operadorEditJSON = JSON.stringify(operadorEdit);
 
-		//configurar a requisição AJAX
 		$.ajax({
-			url: "operador_update",//servlet OperadorUpdateServlet
+			url: "operador_update",
 			type: "POST",
 			contentType: "application/json",
 			data: operadorEditJSON,

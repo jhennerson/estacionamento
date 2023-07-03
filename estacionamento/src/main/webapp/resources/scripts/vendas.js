@@ -1,12 +1,13 @@
-$(document).ready(function() {
-				
+$(document).ready(function() {				
 	var tabelaVendas = $("#tabela-vendas");
 	var modalDeletarVenda = $("#modal-deletar-venda");
+	var valorTotal = $("#span-valor-total");
 	var vendaSelecionada;
 	
 	atualizarTabelaVendas();
 	
 	function atualizarTabelaVendas() {
+		var total = 0.0;
 		tabelaVendas.empty();
 		
 		$.ajax({
@@ -23,7 +24,7 @@ $(document).ready(function() {
 					var timestampCell = $("<td></td>").text(venda.timestamp);
 
                 	var deletarButton = $("<button></button>")
-                    	.addClass("btn btn-danger btn-operations-vendas")
+                    	.addClass("btn btn-danger btn-operacoes-vendas")
                     	.attr("data-bs-toggle", "modal")
 						.attr("data-bs-target", "#modal-deletar-venda")
                     	.text("Deletar")
@@ -47,6 +48,18 @@ $(document).ready(function() {
                 console.log("Erro ao obter a lista de vendas!");
                 console.log(xhr.responseText);
             }
+		});
+		
+		$.ajax({
+			url: "calculadora",
+			type: "GET",
+			success: function(response) {
+				valorTotal.text(response);
+			},
+			error: function(xhr) {
+				console.log("Erro ao calcular o valor total de vendas!");
+                console.log(xhr.responseText);
+			}
 		});
 	}
 	

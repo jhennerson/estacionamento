@@ -12,28 +12,37 @@
 </head>
 <body>
 	<div class="container mt-5">
-		<div class="container-fluid p-5 bg-primary text-white text-center">
-			<h1 id="lblGerenciamentoDeVagas">Gerenciamento de Blocos</h1>
+		<div class="container-fluid p-5 bg-dark text-white text-center">
+			<h1 id="lbl-gerenciamento-de-vagas">Gerenciamento de Blocos</h1>
 		</div>
-	
-		<table class="table table-striped table-bordered my-3 text-center align-middle" id="tblBlocos">
-			<thead>
-				<tr>
-					<th class="align-middle table-counter text-primary">ID</th>
-					<th class="align-middle text-primary">Descrição</th>
-					<th class="align-middle text-primary">Operador</th>
-					<th class="align-middle table-counter text-primary">Vagas Carro</th>
-					<th class="align-middle table-counter text-primary">Vagas Moto</th>
-					<th class="align-middle table-counter text-primary">Vagas Deficiente</th>
-					<th class="align-middle table-operations-blocos text-primary">Operações</th>
-				</tr>
-			</thead>
-			<tbody id="tabela-blocos"></tbody>
-		</table>
-		
-		<div class="container text-center" id="buttons">
-	        <button type="button" class="btn btn-primary p-3 m-1 btn-opcoes" id="btn-cadastrar">Cadastrar</button>
-	        <button type="button" value="voltar" class="btn btn-primary p-3 m-1 btn-opcoes" id="btn-voltar" onclick="document.location.href='Admin.jsp'">Voltar</button>
+		<div class="container main-box">
+			<table class="table table-striped table-bordered my-3 text-center align-middle" id="tblBlocos">
+				<thead>
+					<tr>
+						<th class="align-middle text-primary">ID</th>
+						<th class="align-middle text-primary">Descrição</th>
+						<th class="align-middle text-primary">Operador</th>
+						<th class="align-middle text-primary">Vagas Carro</th>
+						<th class="align-middle text-primary">Vagas Moto</th>
+						<th class="align-middle text-primary">Vagas Deficiente</th>
+						<th class="align-middle text-primary">Operações</th>
+					</tr>
+				</thead>
+				<tbody id="tabela-blocos"></tbody>
+			</table>
+			
+			<div class="d-flex flex-row justify-content-center" id="buttons">
+		        <div>
+		        	<button type="button" class="btn btn-primary p-3 m-3" id="btn-cadastrar">Cadastrar</button>
+		        </div>
+		        	        
+		        <div>
+					<form action="autenticador" method="POST">
+		       			<input type="hidden" name="nome" value="<%= session.getAttribute("nome") %>">
+		       			<button type="submit" value="voltar" class="btn btn-danger p-3 m-3 btn-voltar" id="btn-voltar">Voltar</button>
+		       		</form>
+	    		</div>
+		    </div>
 	    </div>			
 	</div>
 	

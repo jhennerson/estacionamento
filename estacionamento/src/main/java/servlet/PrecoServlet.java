@@ -27,18 +27,15 @@ public class PrecoServlet extends HttpServlet {
 		PrecoController precoController = new PrecoController();
 	    List<Preco> precos = precoController.getList();
 
-        //configurar a resposta como JSON
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        //converter a lista de blocos em JSON e enviar a resposta
         Gson gson = new Gson();
         String json = gson.toJson(precos);
         response.getWriter().write(json);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//lê o corpo da requisição e converte para objeto JSON
 		BufferedReader reader = request.getReader();
         Gson gson = new Gson();
         Preco precoGson = gson.fromJson(reader, Preco.class);
@@ -56,26 +53,19 @@ public class PrecoServlet extends HttpServlet {
 	}
 
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//obter o ID do preço a ser excluído a partir dos parâmetros da requisição
         String idPreco = request.getParameter("id");
         
         if (idPreco != null) {
             try {
-                //converte o ID para Integer
                 Integer id = Integer.parseInt(idPreco);
-                
-                //chama o método de exclusão do preço com o ID fornecido
                 PrecoController precoController = new PrecoController();
-                precoController.delete(id);
                 
-                //define o código de resposta como 200 (OK) indicando sucesso
+                precoController.delete(id);
                 response.setStatus(HttpServletResponse.SC_OK);
             } catch (NumberFormatException e) {
-                //se o ID fornecido não for um número válido, define o código de resposta como 400 (Bad Request)
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         } else {
-            //se o ID do preço não for fornecido, define o código de resposta como 400 (Bad Request)
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
 	}

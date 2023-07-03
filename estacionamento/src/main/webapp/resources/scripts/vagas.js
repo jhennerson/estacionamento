@@ -2,6 +2,9 @@ $(document).ready(function() {
 	var tabelaVagas = $("#tbl-body-vagas");
 	var modalAlterarEstado = $("#modal-alterar-estado");
 	var modalCalcularPreco = $("#modal-calcular-preco");
+	var formCalcularTotal = $("#form-calcular-venda");
+	var vagasLivres = $("#span-vagas-livres");
+	var vagasOcupadas = $("#span-vagas-ocupadas");
 	var vagaSelecionada;
 	
 	console.log(vagaSelecionada);
@@ -9,13 +12,8 @@ $(document).ready(function() {
 	atualizarTabelaVagas();
 	
 	function atualizarTabelaVagas() {
-		//variáveis de contagem de vagas LIVRES e OCUPADAS
 		var contagemVagasLivres = 0;
-		var contagemVagasOcupadas = 0;
-		
-		//exibição da contagem de vagas
-		var vagasLivres = $("#span-vagas-livres").text(contagemVagasLivres);
-		var vagasOcupadas = $("#span-vagas-ocupadas").text(contagemVagasOcupadas);
+		var contagemVagasOcupadas = 0;		
 		
 		tabelaVagas.empty();
 		
@@ -44,7 +42,7 @@ $(document).ready(function() {
 					var timestampCell = $("<td></td>").text(vaga.timestamp);
 					
 					var btAlterarEstado = $("<button></button>")
-						.addClass("btn btn-primary btn-operations-vagas fw-bold")
+						.addClass("btn btn-primary btn-operacoes btn-operacoes-vagas")
 						.text("Aterar Estado")
 						.attr("data-bs-toggle", "modal")
 						.attr("data-bs-target", "#modal-alterar-estado")
@@ -53,7 +51,7 @@ $(document).ready(function() {
 						});									
 					
 					var btCalcularPreco = $("<button></button>")
-						.addClass("btn btn-warning btn-operations-vagas fw-bold")
+						.addClass("btn btn-warning btn-operacoes btn-operacoes-vagas")
 						.text("Calcular Preço")
 						.attr("data-bs-toggle", "modal")
 						.attr("data-bs-target", "#modal-calcular-preco")
@@ -76,24 +74,27 @@ $(document).ready(function() {
 					tabelaVagas.append(row);
 				});
 			}
-		});					
+		});
+
+		vagasLivres.text(contagemVagasLivres);
+		vagasOcupadas.text(contagemVagasOcupadas);					
 	}	
 	
 	function abrirModalCalcularPreco(vaga) {
 		modalCalcularPreco.modal("show");
-		modalCalcularPreco.find("#form-calcular-total-timestamp").val(vaga.timestamp);		
+		modalCalcularPreco.find("#form-calcular-venda-timestamp").val(vaga.timestamp);		
 		
 		$.ajax({
 			url: "preco",
 			type: "GET",
 			dataType: "json",
 			success: function(response) {
-				//preencher o campo "Valor/hora" com as opções da lista de blocos
-				var precoSelect = $("#form-calcular-total-valor-hora");
+				var precoSelect = $("#form-calcular-venda-preco-hora");
 				precoSelect.empty();
-				modalCalcularPreco.find("#form-calcular-total-valor-hora")
+				modalCalcularPreco.find("#form-calcular-venda-preco-hora")
 								  .empty()
 								  .append("<option selected disabled>Selecione uma opção</option>")
+
 				$.each(response, function(index, precoOption) {
 					precoSelect.append($("<option></option>").text(precoOption.valor).val(precoOption.valor));
 				});
@@ -106,17 +107,17 @@ $(document).ready(function() {
 		
 		var precoSelecionado;
 		
-		$("#form-calcular-total-valor-hora").change(function() {
+		$("#form-calcular-venda-preco-hora").change(function() {
 			precoSelecionado = ($(this).val());
 		});
 		
-		$("#btn-calcular-total").on("click", function() {			
+		$("#btn-calcular-venda").on("click", function() {			
 			$.ajax({
 				url: "calculadora",
 				type: "POST",
 				data: {timestamp: vaga.timestamp, valorHora: precoSelecionado},
 				success: function(response) {
-	                modalCalcularPreco.find("#form-calcular-total-valor-total").val(response);
+	                modalCalcularPreco.find("#form-calcular-venda-valor").val(response);
 	            },
 	            error: function(xhr) {
 	                console.log("Erro ao calcular o total!");
@@ -126,7 +127,6 @@ $(document).ready(function() {
 		});
 	}
 
-	//corfirma a alteração do estado da vaga "LIVRE" para "OCUPADO" e vice versa
 	$("#btn-confirmar-alteracao").on("click", function() {
 		$.ajax({
 			url: "vaga_update",
@@ -144,5 +144,41 @@ $(document).ready(function() {
 		
 		vagaSelecionada = null;
 		modalAlterarEstado.modal("hide");
+	});
+	
+	formCalcularTotal.submit(function(event) {
+		event.preventDefault();
+
+		var operador = $("#form-calcular-venda-operador").val();
+		var bloco = $("#form-calcular-venda-bloco").val();
+		var precoHora = $("#form-calcular-venda-preco-hora option:selected").text();
+		var valor = $("#form-calcular-venda-valor").val().replace(/,/, '.');
+		var valorConvertido = parseFloat(valor);
+
+		var venda = {
+			operador: operador,
+			bloco: bloco,
+			precoHora: precoHora,
+			valor: valorConvertido
+		};
+
+		var vendaJSON = JSON.stringify(venda);
+
+		$.ajax({
+			url: "venda",
+			type: "POST",
+			contentType: "application/json",
+			data: vendaJSON,
+			success: function(response) {
+				alert("Venda cadastrada com sucesso!");
+				console.log(response);
+			},
+			error: function(xhr) {
+				console.log("Erro ao cadastrar venda!");
+				console.log(xhr.responseText);
+			}
+		});
+		
+		modalCalcularPreco.modal("hide");
 	});
 });

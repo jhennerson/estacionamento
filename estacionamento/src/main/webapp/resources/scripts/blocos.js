@@ -31,7 +31,7 @@ $(document).ready(function() {
 					var vagasDeficientesCell = $("<td></td>").text(bloco.vagasDeficientes);
 					
 					var editarButton = $("<button></button>")
-                    	.addClass("btn btn-primary btn-operations-blocos")
+                    	.addClass("btn btn-primary btn-operacoes btn-operacoes-blocos")
                     	.text("Editar")
                     	.attr("data-bloco-id", bloco.id)
                     	.attr("data-bs-toggle", "modal")
@@ -42,7 +42,7 @@ $(document).ready(function() {
                    		});
 
                 	var deletarButton = $("<button></button>")
-                    	.addClass("btn btn-danger btn-operations-blocos")
+                    	.addClass("btn btn-danger btn-operacoes btn-operacoes-blocos")
                     	.attr("data-bs-toggle", "modal")
 						.attr("data-bs-target", "#modal-deletar-bloco")
                     	.text("Deletar")
@@ -77,13 +77,11 @@ $(document).ready(function() {
 	function abrirModalCadastrarBloco() {
 		modalCadastrarBloco.modal("show");
     	
-    	//resgata lista de operadores
         $.ajax({
 			url: "operador",
 			type: "GET",
 			dataType: "json",
 			success: function(response) {
-				//preencher o campo "bloco" com as opções da lista de blocos
 				var operadorSelect = $("#form-cadastrar-bloco-operador");
 				operadorSelect.empty();
 				$.each(response, function(operadorOption) {
@@ -99,17 +97,14 @@ $(document).ready(function() {
     }
 	
 	formCadastrarBloco.submit(function(event) {
-		//previne o recarregamento da página
 		event.preventDefault();
 
-		//obtém os valores dos campos do formulário
 		var descricao = $("#form-cadastrar-bloco-descricao").val();
 		var operador = $("#form-cadastrar-bloco-operador option:selected").text();
 		var vagasCarros = $("#form-cadastrar-bloco-vagas-carros").val();
 		var vagasMotos = $("#form-cadastrar-bloco-vagas-motos").val();
 		var vagasDeficientes = $("#form-cadastrar-bloco-vagas-deficientes").val();
 
-		//cria um JSON para o bloco
 		var bloco = {
 			descricao: descricao,
 			operador: operador,
@@ -117,11 +112,9 @@ $(document).ready(function() {
 			vagasMotos: vagasMotos,
 			vagasDeficientes: vagasDeficientes
 		};
-		
-		//converte o JSON para uma string
+
 		var blocoJSON = JSON.stringify(bloco);
 
-		//configura a requisição AJAX
 		$.ajax({
 			url: "bloco",
 			type: "POST",
@@ -150,14 +143,12 @@ $(document).ready(function() {
 	  	modalEditarBloco.find("#form-editar-bloco-vagas-carros").val(blocoSelecionado.vagasCarros);
 		modalEditarBloco.find("#form-editar-bloco-vagas-motos").val(blocoSelecionado.vagasMotos);
 	  	modalEditarBloco.find("#form-editar-bloco-vagas-deficientes").val(blocoSelecionado.vagasDeficientes);
-  		
-	  	//resgata lista de operadores
+
         $.ajax({
 			url: "operador",
 			type: "GET",
 			dataType: "json",
 			success: function(response) {
-				//preencher o campo "bloco" com as opções da lista de blocos
 				var operadorSelect = $("#form-editar-bloco-operador");
 				operadorSelect.empty();
 				$.each(response, function(index, operadorOption) {
@@ -175,7 +166,6 @@ $(document).ready(function() {
 	formEditarBloco.submit(function(event) {
 		event.preventDefault();
 
-		//obtém os valores dos campos do formulário
 		var id = $("#form-editar-bloco-id").val();
 		var descricao = $("#form-editar-bloco-descricao").val();
 		var operador = $("#form-editar-bloco-operador option:selected").text();
@@ -183,7 +173,6 @@ $(document).ready(function() {
 		var vagasMotos = $("#form-editar-bloco-vagas-motos").val();
 		var vagasDeficientes = $("#form-editar-bloco-vagas-deficientes").val();
 
-		//cria um JSON para o bloco
 		var bloco = {
 			id: id,
 			descricao: descricao,
@@ -193,10 +182,8 @@ $(document).ready(function() {
 			vagasDeficientes: vagasDeficientes
 		};
 
-		//converte o JSON para uma string
 		var blocoJSON = JSON.stringify(bloco);
 
-		//configura a requisição AJAX
 		$.ajax({
 			url: "bloco_update",
 			type: "POST",
@@ -217,8 +204,7 @@ $(document).ready(function() {
 	});
 	
 
-    $("#btn-confirmar-exclusao").one("click", function() {
-        
+    $("#btn-confirmar-exclusao").one("click", function() {        
     	$.ajax({
             url: "bloco?id=" + blocoSelecionado.id,
             type: "DELETE",
