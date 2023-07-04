@@ -7,11 +7,14 @@ Projeto Java Web dinâmico utilizando as tecnologias:
 -JSON
 -AJAX
 -Bootstrap 5
+-HTML5
+-CSS3
 -MySQL
 -Java
 -JavaScript
 -JSP
 -Servlet
+-Apache Tomcat
 
 
 Diagrama de classes: https://github.com/jhennerson/estacionamento/blob/main/diagrama/diagrama_de_classes_estacionamento.drawio.svg
